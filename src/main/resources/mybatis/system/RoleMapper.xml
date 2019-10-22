@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.data2.project.system.role.mapper.RoleMapper">
+
+    <!--根据条件分页查询角色信息-->
+    <select id="selectRoleList" resultType="com.data2.project.system.role.entity.Role">
+        select role_id,role_name,role_key,role_sort,status,create_time,remark,from sys_role
+        <where>
+            <if test="searchValue != null and searchValue != ''">
+                AND role_name like concat(concat('%',#{searchValue}),'%') or role_key like concat(concat('%',#{searchValue}),'%')
+            </if>
+        </where>
+    </select>
+
+    <!--根据用户ID查询角色-->
+    <select id="selectRoleByUserId" resultType="com.data2.project.system.role.entity.Role">
+        select r.role_id,r.role_name,r.role_key
+        from sys_user u
+        left join sys_user_role ur on u.user_id=ur.user_id
+        left join sys_role r on r.role_id = ur.role_id
+        where ur.user_id = #{userId}
+    </select>
+
+
+    <!--查询角色列表-->
+    <select id="selectRoleAll" resultType="com.data2.project.system.role.entity.Role">
+       SELECT role_id, role_name, role_key, role_sort, status, create_time, remark FROM sys_role
+    </select>
+
+</mapper>

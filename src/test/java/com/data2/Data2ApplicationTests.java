@@ -2,6 +2,8 @@ package com.data2;
 
 import com.data2.project.system.menu.entity.Menu;
 import com.data2.project.system.menu.service.MenuService;
+import com.data2.project.system.role.entity.Role;
+import com.data2.project.system.role.mapper.RoleMapper;
 import com.data2.project.system.user.entity.User;
 import com.data2.project.system.user.mapper.UserMapper;
 import com.data2.project.system.user.service.UserService;
@@ -18,6 +20,9 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class Data2ApplicationTests {
+
+    @Autowired
+    RoleMapper roleMapper;
 
     @Autowired
     UserMapper userMapper;
@@ -53,8 +58,10 @@ public class Data2ApplicationTests {
     @Test
     public void contextLoads() {
 
-        User user = userService.selectUserByLoginName("jiankong");
-        System.out.println(user.getUserName());
+        List<Role> roleList = roleMapper.selectRoleByUserId(1l);
+        for (Role role :roleList){
+            System.out.println(role.getRoleName());
+        }
     }
 
 
@@ -72,4 +79,12 @@ public class Data2ApplicationTests {
         System.out.println(user.getUserId());
     }
 
+
+    @Test
+    public void selectRoleByUserId() {
+        List<Role> roleList = roleMapper.selectRoleByUserId(1l);
+        for (Role role :roleList){
+            System.out.println(role.getRoleName());
+        }
+    }
 }
